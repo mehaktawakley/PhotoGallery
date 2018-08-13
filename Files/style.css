@@ -1,0 +1,186 @@
+body{
+  background-color: white;
+}
+
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+  opacity: 0.9;
+}
+
+.navbar-nav li a {
+  color: white !important;
+}
+
+.navbar-nav li a : hover {
+  color: red !important;
+}
+
+.navbar-inverse{
+  color: white !important;
+}
+
+.navbar-brand{
+  color: white !important;
+}
+
+.mycarousel{
+  position: fixed;
+  margin: -10px;
+}
+
+#NavBarMain{
+  box-shadow: 0 8px 6px -2px grey;
+  background-color: #3e4242;
+  color: white;
+}
+
+#site{
+  font-family: 'Merienda', cursive;
+}
+
+#main{
+  width: 100%;
+  margin: auto;
+  margin-top: 11px;
+  background-color: white;
+}
+
+.carousel-inner{
+  max-height: 600px;
+  opacity: 0.7;
+}
+
+#searchbar2{
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  position: absolute;
+  bottom: 50%;
+  z-index: 20;
+  color: black;
+  text-shadow: 2px 2px 16px rgba(255, 255, 255, 0.79);
+  font-size: 50px;
+}
+
+#searchbytag{
+  width: 50%;
+  margin: auto;
+}
+
+/*Zig-Zag borders*/
+#d-wrapper {
+  background: radial-gradient(circle, #fbfbfb, #bec0c2, #83888c, #4b5558, #1a2726);
+  width: 100%;
+}
+
+#d-wrapper div.sep {
+  min-height: 200px;
+  padding: 32px 0;
+}
+
+#d-wrapper .zig-zag-top:before {
+  background: linear-gradient(-45deg,#00BFFF 16px,#00BFFF 16px,transparent 0),
+    linear-gradient(45deg, #00BFFF 16px, transparent 0);
+  background-position: left top;
+  background-repeat: repeat-x;
+  background-size: 22px 32px;
+  content: " ";
+  display: block;
+  height: 32px;
+  width: 100%;
+  position: relative;
+  bottom: 64px;
+  left: 0;
+}
+/*
+#d-wrapper div > * {
+  margin: 0 40px;
+}*/
+
+#d-wrapper .zig-zag-bottom {
+  margin: 0px;
+  margin-top: 0;
+  background:linear-gradient(#00BFFF,#87CEEB,#00BFFF);
+}
+
+#d-wrapper .zig-zag-top {
+  margin: 0px;
+  margin-bottom: 21px;
+  background:linear-gradient(#00BFFF,#87CEEB,#00BFFF);
+}
+
+#d-wrapper .zig-zag-bottom,
+#d-wrapper .zig-zag-top {
+  padding: 32px 0;
+}
+
+#d-wrapper p,
+#d-wrapper h1 {
+  font-size: 2em;
+  text-align: center;
+  color: #fff;
+  font-family: "PT Sans Narrow", "Fjalla One", sans-serif;
+  font-weight: 900;
+  text-shadow: 1px 1px 0 #1b90e2, 2px 2px 0 #1b90e2, 3px 3px 0 #1b90e2,
+    4px 4px 0 #1b90e2, 5px 5px 0 #1b90e2;
+}
+
+#d-wrapper div.sep p,
+#d-wrapper div.sep h1 {
+  text-shadow: 1px 1px 0 #888, 2px 2px 0 #888, 3px 3px 0 #888, 4px 4px 0 #888,
+    5px 5px 0 #888;
+  color: #fff;
+}
+
+#d-wrapper h1 {
+  font-size: 4em;
+}
+
+#d-wrapper .zig-zag-bottom:after {
+  background: linear-gradient(-45deg, transparent 16px, #00BFFF 0),
+    linear-gradient(45deg, transparent 16px, #00BFFF 0);
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  background-size: 22px 32px;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 32px;
+  position: relative;
+  top: 436px;
+  left: 0px;
+}
+
+#d-wrapper p {
+  text-align: center;
+}
+
+/**Categories**/
+#categories{
+  width:100%;
+  margin: auto;
+}
+
+.card{
+  border: 2px solid black;
+  margin: 0px 5px;
+  padding: -5%;
+}
+
+/* Set black background color, white text and some padding */
+footer {
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+    
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+  .sidenav {
+     height: auto;
+     padding: 15px;
+  }
+  .row.content {height:auto;} 
+}
