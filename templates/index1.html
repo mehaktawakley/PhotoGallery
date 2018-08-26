@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PhotoGallery</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Merienda" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='photos/style.css')}}">
+</head>
+<body>
+
+<!--Navigation Bar-->
+<nav class="navbar navbar-inverse container-fluid navbar-fixed-top " id="NavBarMain">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand glyphicon glyphicon-film" href="/" id=""><span id="site"> PhotoGallery</span></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <li ><a data-toggle="modal" data-target="#aboutmodal"><span class="glyphicon glyphicon-sunglasses"></span> About Us</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--End of Navigation Bar-->
+
+<br/><br/>
+
+<div id="main">
+<!--Carousel--> 
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+    <li data-target="#myCarousel" data-slide-to="4"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="/static/photos/Images/Image133.jpg" alt="Chicago" style="width:100%;">
+    </div>
+    <div class="item">
+      <img src="/static/photos/Images/Image17.jpg" alt="New york" style="width:100%;">
+    </div>
+    <div class="item">
+      <img src="/static/photos/Images/Image72.jpg" alt="New york" style="width:100%;">
+    </div>
+    <div class="item">
+      <img src="/static/photos/Images/Image32.jpg" alt="New york" style="width:100%;">
+    </div>
+  </div>
+
+  <!--Search Bar-->
+  <div id="searchbar2">
+      <p class="text1"><b>Hi {{UserName}}<br>Download Images for Free!</b></p>
+      <p class="text2" style="font-size: 30px;"><b>PhotoGallery</b> Provides <b>High-Resolution Images</b> for <b>Free</b></p>
+      <form action="/result" method="POST">
+      <div class="input-group" id="searchbytag">
+          <input type="text" class="search-query form-control" placeholder="Search" name="q">
+          <span class="input-group-btn">
+            <input type="submit" class="btn btn-primary">
+              <span class=" glyphicon glyphicon-search"></span>
+            </input>
+          </span>
+      </div> 
+      </form>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<!--End of Carousel-->
+
+<div class="modal fade" id="aboutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">About Us</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            PhotoGallery is a platform from where users can download high quality and original images. It breaks the gap between the user and the photographer. Though many images are available on internet but using them can create a copyright issue. 
+With this project, one can download the image without any copyright issues. Initially images are presented to user with a watermark. This watermark defines that the copyright stays with the photographer and our site. Images cannot be download without watermark. However, one can download an image without watermark by simply login.
+
+                
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div style="display: none">
+  <form action="/result_category" method="POST" id="myForm">
+      <div class="input-group" id="searchbytag">
+          <input type="text" class="search-query form-control" placeholder="Search" id="q" name="q">
+          <span class="input-group-btn">
+            <input type="submit" class="btn btn-primary" value="Search">
+          </span>
+      </div> 
+      </form>
+</div>
+<div class="categories row" style="margin: 0">
+  <div class="col-md-12 text-center">
+    <h3>Search by Category</h3>
+  </div>
+  <div class="col-md-2 col-md-offset-1" onclick="people()">
+    <div class="card text-center" id="c2">
+      <img src="/static/photos/Images/Image32.jpg" style="width: 100%">
+      <div class="card-title">
+        <h4>People</h4>            
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2" onclick="culture()">
+    <div class="card text-center" id="c2">
+      <img src="/static/photos/Images/Image107.jpg" style="width: 100%">
+      <div class="card-title">
+        <h4>Culture</h4>            
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2" onclick="monument()">
+    <div class="card text-center" id="c2">
+      <img src="/static/photos/Images/Image2.jpg" style="width: 100%">
+      <div class="card-title">
+        <h4>Monument</h4>            
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2" onclick="wildlife()">
+    <div class="card text-center" id="c2">
+      <img src="/static/photos/Images/Image17.jpg" style="width: 100%">
+      <div class="card-title">
+        <h4>Wildlife</h4>            
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2" onclick="city()">
+    <div class="card text-center" id="c2">
+      <img src="/static/photos/Images/Image72.jpg" style="width: 100%">
+      <div class="card-title">
+        <h4>City</h4>            
+      </div>
+    </div>
+  </div>
+</div>
+{% for r in result %}
+<div class="col-md-4 text-center" style="margin-top: 10px;">
+  <img src="static/photos/pics/{{r}}.jpg" style="height: 300px;width: 100%;">
+  <a href="static/photos/pics/{{r}}.jpg" download><button type="button" class="btn btn-primary" style="margin: 5px">Download</button></a>
+</div>
+      
+      {% endfor %}
+<footer class="container-fluid text-center">
+  <p class="col-md-12" style="margin-top: 20px;">© PhotoGallery</p>
+</footer>
+<script type="text/javascript">
+  function people(){
+    document.getElementById('q').value = "People";
+    document.getElementById("myForm").submit(); 
+  }
+  function culture(){
+    document.getElementById('q').value = "Culture";
+    document.getElementById("myForm").submit(); 
+  }
+  function monument(){
+    document.getElementById('q').value = "Monument";
+    document.getElementById("myForm").submit(); 
+  }
+  function wildlife(){
+    document.getElementById('q').value = "Wildlife";
+    document.getElementById("myForm").submit(); 
+  }
+  function city(){
+    document.getElementById('q').value = "City";
+    document.getElementById("myForm").submit(); 
+  }
+</script>
+</html>
