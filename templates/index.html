@@ -95,6 +95,7 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+
 <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -226,6 +227,7 @@ With this project, one can download the image without any copyright issues. Init
       </div>
     </div>
   </div>
+
   <div class="col-md-2" onclick="monument()">
     <div class="card text-center" id="c2">
       <img src="/static/photos/Images/Image2.jpg" style="width: 100%">
@@ -234,6 +236,7 @@ With this project, one can download the image without any copyright issues. Init
       </div>
     </div>
   </div>
+
   <div class="col-md-2" onclick="wildlife()">
     <div class="card text-center" id="c2">
       <img src="/static/photos/Images/Image17.jpg" style="width: 100%">
@@ -242,6 +245,7 @@ With this project, one can download the image without any copyright issues. Init
       </div>
     </div>
   </div>
+
   <div class="col-md-2" onclick="city()">
     <div class="card text-center" id="c2">
       <img src="/static/photos/Images/Image72.jpg" style="width: 100%">
@@ -251,18 +255,19 @@ With this project, one can download the image without any copyright issues. Init
     </div>
   </div>
 </div>
+
 {% for r in result %}
 <div class="col-md-4 text-center" style="margin-top: 10px;" onload="here()">
   <img src="static/photos/pics1/{{r}}.jpg" style="height: 300px;width: 100%;">
   <a href="static/photos/pics1/{{r}}.jpg" download=""><button type="button" class="btn btn-primary" style="margin: 5px auto">Download</button></a>
 </div>
-      
-      </script>
-      {% endfor %}
+{% endfor %}
+
 <footer class="container-fluid text-center">
   <p class="col-md-12" style="margin-top: 20px;">© PhotoGallery</p>
 </footer>
 </body>
+
 <script type="text/javascript">
   function people(){
     document.getElementById('q').value = "People";
