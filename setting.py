@@ -21,6 +21,10 @@ def register_server():
 				con = sql.connect("static/datab.db")
 				cur = con.cursor()
 				print(emailid)
+				cur.execute("select userid from users where email = ?",(emailid,))
+				a = cur.fetchone();
+				if a != None:
+					return ("<h1 class='display-1 text-center'>You're already registered</h1><br><a href='/'>Go to Home Page</a>")	
 				cur.execute("INSERT INTO users (name,password,email)VALUES (?,?,?)",(name,password,emailid))
 				print('registered : ',name,emailid,password)
 				con.commit()
