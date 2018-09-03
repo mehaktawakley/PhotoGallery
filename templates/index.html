@@ -119,21 +119,21 @@
                     </div>
                   </div>
                 <div class="form-group row">
-                    <label for="password" class="col-sm-4 col-form-label" min=8>Password : </label>
+                    <label for="password" class="col-sm-4 col-form-label" >Password : </label>
                     <div class="col-sm-8">
-                      <input type="password" name="password" class="form-control" placeholder="Enter Your Password">
+                      <input type="password" name="password" class="form-control" id="passwordd" placeholder="Enter Your Password">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="repassword" class="col-sm-4 col-form-label">Confirm Password : </label>
                     <div class="col-sm-8">
-                      <input type="password" name="repassword" class="form-control" placeholder="Re-Enter Your Password">
+                      <input type="password" name="repassword" class="form-control" id="repasswordd" placeholder="Re-Enter Your Password">
                     </div>
                 </div>
 
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary" id="slct-btn">Register</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div></form>
         </div>
@@ -195,7 +195,73 @@ With this project, one can download the image without any copyright issues. Init
         </div>
       </div>
     </div>
+    <!--Register Failed-->
+    <div class="modal fade" id="register_fail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">Register</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            You're already registered.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Result Failed-->
+    <div class="modal fade" id="result_fail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">Not Found</h5>
+            <a href="/"><button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </a>
+          </div>
+          <div class="modal-body">
+            Try Other Keywords
+          </div>
+          <div class="modal-footer">
+            <a href="/" style="color: black;">
+            <button type="button" class="btn btn-secondary">Close</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!--Login Failed-->
+    <div class="modal fade" id="login_fail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">Login Failed</h5>
+            <a href="/"><button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </a>
+          </div>
+          <div class="modal-body">
+            Invalid Credentials
+          </div>
+          <div class="modal-footer">
+            <a href="/" style="color: black;">
+            <button type="button" class="btn btn-secondary">Close</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 <div style="display: none">
+  <a data-toggle="modal" data-target="#register_fail" id="test"></a>
+  <a data-toggle="modal" data-target="#result_fail" id="test_result"></a>
+  <a data-toggle="modal" data-target="#login_fail" id="test_login"></a>
   <form action="/result_category" method="POST" id="myForm">
       <div class="input-group" id="searchbytag">
           <input type="text" class="search-query form-control" placeholder="Search" id="q" name="q">
@@ -205,6 +271,21 @@ With this project, one can download the image without any copyright issues. Init
       </div> 
       </form>
 </div>
+{% if show_example_modal %}
+    <script type="text/javascript">
+      document.getElementById('test').click();
+    </script>
+{% endif %}
+{% if r %}
+    <script type="text/javascript">
+      document.getElementById('test_result').click();
+    </script>
+{% endif %}
+{% if login_modal %}
+    <script type="text/javascript">
+      document.getElementById('test_login').click();
+    </script>
+{% endif %}
 <div class="categories row" style="margin: 0">
   <div class="col-md-12 text-center" id="resulthere">
     <h3>Search by Category</h3>
@@ -284,5 +365,23 @@ With this project, one can download the image without any copyright issues. Init
     document.getElementById('q').value = "City";
     document.getElementById("myForm").submit(); 
   }
+  $(document).ready(function() {
+            $("#passwordd").change(function() {
+              if(document.getElementById("passwordd").value != document.getElementById("repasswordd").value){
+                $("#slct-btn").prop("disabled", true);
+              }
+              else{
+                $("#slct-btn").removeAttr('disabled');
+              }
+            });
+  $("#repasswordd").change(function() {
+              if(document.getElementById("passwordd").value != document.getElementById("repasswordd").value){
+                $("#slct-btn").prop("disabled", true);
+              }
+              else{
+                $("#slct-btn").removeAttr('disabled');
+              }
+            });
+});
 </script>
 </html>

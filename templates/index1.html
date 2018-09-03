@@ -95,7 +95,8 @@
 </div>
 <!--End of Carousel-->
 
-<div class="modal fade" id="aboutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- About Modal -->
+    <div class="modal fade" id="aboutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -108,7 +109,6 @@
             PhotoGallery is a platform from where users can download high quality and original images. It breaks the gap between the user and the photographer. Though many images are available on internet but using them can create a copyright issue. 
 With this project, one can download the image without any copyright issues. Initially images are presented to user with a watermark. This watermark defines that the copyright stays with the photographer and our site. Images cannot be download without watermark. However, one can download an image without watermark by simply login.
 
-                
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -116,8 +116,31 @@ With this project, one can download the image without any copyright issues. Init
         </div>
       </div>
     </div>
+    <!--Result Failed-->
+    <div class="modal fade" id="result_fail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aboutModalLabel">Not Found</h5>
+            <a href="/"><button type="button" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </a>
+          </div>
+          <div class="modal-body">
+            Try Other Keywords
+          </div>
+          <div class="modal-footer">
+            <a href="/" style="color: black;">
+            <button type="button" class="btn btn-secondary">Close</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
 <div style="display: none">
+  <a data-toggle="modal" data-target="#result_fail" id="test_result"></a>
   <form action="/result_category" method="POST" id="myForm">
       <div class="input-group" id="searchbytag">
           <input type="text" class="search-query form-control" placeholder="Search" id="q" name="q">
@@ -127,8 +150,14 @@ With this project, one can download the image without any copyright issues. Init
       </div> 
       </form>
 </div>
+
+{% if r %}
+    <script type="text/javascript">
+      document.getElementById('test_result').click();
+    </script>
+{% endif %}
 <div class="categories row" style="margin: 0">
-  <div class="col-md-12 text-center">
+  <div class="col-md-12 text-center" id="resulthere">
     <h3>Search by Category</h3>
   </div>
   <div class="col-md-2 col-md-offset-1" onclick="people()">
@@ -139,6 +168,7 @@ With this project, one can download the image without any copyright issues. Init
       </div>
     </div>
   </div>
+
   <div class="col-md-2" onclick="culture()">
     <div class="card text-center" id="c2">
       <img src="/static/photos/Images/Image107.jpg" style="width: 100%">
@@ -173,11 +203,12 @@ With this project, one can download the image without any copyright issues. Init
   </div>
 </div>
 {% for r in result %}
-<div class="col-md-4 text-center" style="margin-top: 10px;">
+<div class="col-md-4 text-center" style="margin-top: 10px;" onload="here()">
   <img src="static/photos/pics/{{r}}.jpg" style="height: 300px;width: 100%;">
-  <a href="static/photos/pics/{{r}}.jpg" download><button type="button" class="btn btn-primary" style="margin: 5px">Download</button></a>
+  <a href="static/photos/pics/{{r}}.jpg" download=""><button type="button" class="btn btn-primary" style="margin: 5px auto">Download</button></a>
 </div>
       
+      </script>
       {% endfor %}
 <footer class="container-fluid text-center">
   <p class="col-md-12" style="margin-top: 20px;">© PhotoGallery</p>
