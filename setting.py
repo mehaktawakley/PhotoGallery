@@ -24,7 +24,7 @@ def register_server():
 				cur.execute("select userid from users where email = ?",(emailid,))
 				a = cur.fetchone();
 				if a != None:
-					return ("<h1 class='display-1 text-center'>You're already registered</h1><br><a href='/'>Go to Home Page</a>")	
+					return render_template("index.html",show_example_modal=True)
 				cur.execute("INSERT INTO users (name,password,email)VALUES (?,?,?)",(name,password,emailid))
 				print('registered : ',name,emailid,password)
 				con.commit()
@@ -34,9 +34,9 @@ def register_server():
 			except:
 				cur.close()
 				con.close()
-				return ("<h1 class='display-1 text-center'>Unable to process your request</h1><br><a href='/'>Go to Home Page</a>")	
+				return render_template("index.html",show_example_modal=True)
 		else:
-			return ("<h1 class='display-1 text-center'>Unable to process your request</h1><br><a href='/'>Go to Home Page</a>")
+			return render_template("index.html",show_example_modal=True)
 
 
 @app.route("/login_server", methods=["POST"])
@@ -66,7 +66,7 @@ def login_server():
 			print('session name = ',session['user'])
 			return redirect('/')
 		else:
-			return ("<h1 class='display-1 text-center'>Invalid Credentials</h1><br><a href='/'>Go to Home Page</a>")
+			return render_template("index.html",login_modal=True)
 		#except:
 			#return ("<h1 class='display-1 text-center'>Invalid Credentials</h1><br><a href='/'>Go to Home Page</a>")
 
@@ -99,15 +99,23 @@ def result():
       cur.execute("select image_name from photos_photo_table where image_tags like '%"+str(result)+"%'")
       inp=cur.fetchall()
       inp = [j for i in inp for j in i]
-      print(inp)
+      if len(inp) == 0:
+      	result = result.split(" ")
+      	for x in result:
+      		cur.execute("select image_name from photos_photo_table where image_tags like '%"+str(x)+"%'")
+      		temp = cur.fetchall()
+      		inp.extend([j for i in temp for j in i])
       con.commit()
       #return redirect('/')
       #return redirect(url_for('index'))
       cur.close()
       con.close()
       if 'user' in session:
-      	print(session['user'])
+      	if len(inp) == 0:
+      		return render_template("index1.html",UserName = session['user'], r = True)
       	return render_template("index1.html", UserName = session['user'], result =inp)
+      if len(inp) == 0:
+      	return render_template("index.html", r = True)
       return render_template("index.html",result = inp)
 
 @app.route('/result_category',methods = ['POST', 'GET'])
@@ -127,8 +135,11 @@ def result_category():
       cur.close()
       con.close()
       if 'user' in session:
-      	print(session['user'])
+      	if len(inp) == 0:
+      		return render_template("index1.html",UserName = session['user'], r = True)
       	return render_template("index1.html", UserName = session['user'], result =inp)
+      if len(inp) == 0:
+      	return render_template("index.html", r = True)
       return render_template("index.html",result = inp)
 
 if __name__=="__main__":
