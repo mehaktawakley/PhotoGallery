@@ -99,12 +99,19 @@ def result():
       cur.execute("select image_name from photos_photo_table where image_tags like '%"+str(result)+"%'")
       inp=cur.fetchall()
       inp = [j for i in inp for j in i]
+      new = []
       if len(inp) == 0:
       	result = result.split(" ")
       	for x in result:
       		cur.execute("select image_name from photos_photo_table where image_tags like '%"+str(x)+"%'")
       		temp = cur.fetchall()
-      		inp.extend([j for i in temp for j in i])
+      		new.extend([j for i in temp for j in i])
+      	for i in new:
+      		if i in inp:
+      			inp.remove(i)
+      			inp.insert(0,i)
+      		else:
+      			inp.append(i)
       con.commit()
       #return redirect('/')
       #return redirect(url_for('index'))
