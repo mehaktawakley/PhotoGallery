@@ -18,15 +18,22 @@ def register_server():
 				emailid = request.form['emailid']
 				emailid = emailid.lower()
 				password = request.form['password']
+				role = request.form['role']
+				print(role)
 				con = sql.connect("static/datab.db")
 				cur = con.cursor()
-				print(emailid)
-				cur.execute("select userid from users where email = ?",(emailid,))
-				a = cur.fetchone();
-				if a != None:
-					return render_template("index.html",show_example_modal=True)
-				cur.execute("INSERT INTO users (name,password,email)VALUES (?,?,?)",(name,password,emailid))
-				print('registered : ',name,emailid,password)
+				if role == "user":
+					cur.execute("select userid from users where email = ?",(emailid,))
+					a = cur.fetchone();
+					if a != None:
+						return render_template("index.html",show_example_modal=True)
+					cur.execute("INSERT INTO users (name,password,email)VALUES (?,?,?)",(name,password,emailid))
+				elif role == "admin":
+					cur.execute("select userid from admin where email = ?",(emailid,))
+					a = cur.fetchone();
+					if a != None:
+						return render_template("index.html",show_example_modal=True)
+					cur.execute("INSERT INTO admin (name,password,email)VALUES (?,?,?)",(name,password,emailid))
 				con.commit()
 				cur.close()
 				con.close()
