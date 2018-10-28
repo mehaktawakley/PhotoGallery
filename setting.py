@@ -19,7 +19,7 @@ def register_server():
 				emailid = emailid.lower()
 				password = request.form['password']
 				role = request.form['role']
-				print(role)
+				print(	role)
 				con = sql.connect("static/datab.db")
 				cur = con.cursor()
 				if role == "user":
@@ -51,31 +51,38 @@ def login_server():
 	if request.method == "POST":
 		emailid = request.form['emailid']
 		password = request.form['password']
+		role = request.form['role']
 		con = sql.connect("static/datab.db")
 		cur = con.cursor()
 		print(emailid)
 		emailid = emailid.lower()
 		#try:
-		cur.execute("select password from users where email = ?",(emailid,))
-		a = cur.fetchone();
-		ta=str(a)
-		output=ta[2:-3]
-		cur.execute("select name from users where email = ?",(emailid,))
-		b = cur.fetchone();
+		if role == "user":
+			cur.execute("select password from users where email = ?",(emailid,))
+			a = cur.fetchone();
+			cur.execute("select name from users where email = ?",(emailid,))
+			b = cur.fetchone()
+		elif role == "admin":
+			cur.execute("select password from admin where email = ?",(emailid,))
+			a = cur.fetchone();
+			cur.execute("select name from admin where email = ?",(emailid,))
+			b = cur.fetchone()
 		cur.close()
 		con.close()
+		ta=str(a)
+		output=ta[2:-3]
 		tb=str(b)
 		name=tb[2:-3]
 		print(output, name)
 		session.pop('user', None)
+		session.pop('role', None)
 		if request.form['password'] == output and output != '':
 			session['user'] = name
+			session['role'] = role
 			print('session name = ',session['user'])
 			return redirect('/')
 		else:
 			return render_template("index.html",login_modal=True)
-		#except:
-			#return ("<h1 class='display-1 text-center'>Invalid Credentials</h1><br><a href='/'>Go to Home Page</a>")
 
 @app.before_request
 def before_request():
@@ -92,8 +99,11 @@ def logout():
 @app.route("/")
 def index():
 	if 'user' in session:
-		print(session['user'])
-		return render_template("index1.html",UserName = session['user'])
+		print(session['user'],session['role'])
+		if session['role'] == "user":
+			return render_template("index1.html",UserName = session['user'])
+		elif session['role'] == "admin":
+			return render_template("index2.html",UserName = session['user'])
 	return render_template("index.html")
 
 @app.route('/result',methods = ['POST', 'GET'])
