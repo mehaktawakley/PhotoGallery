@@ -51,41 +51,38 @@ def register_server():
 
 @app.route("/login_server", methods=["POST"])
 def login_server():
-	if request.method == "POST":
-		emailid = request.form['emailid']
-		password = request.form['password']
-		role = request.form['role']
-		con = sql.connect("static/datab.db")
-		cur = con.cursor()
-		print(emailid)
-		emailid = emailid.lower()
-		#try:
-		if role == "user":
-			cur.execute("select password from users where email = ?",(emailid,))
-			a = cur.fetchone();
-			cur.execute("select name from users where email = ?",(emailid,))
-			b = cur.fetchone()
-		elif role == "admin":
-			cur.execute("select password from admin where email = ?",(emailid,))
-			a = cur.fetchone();
-			cur.execute("select name from admin where email = ?",(emailid,))
-			b = cur.fetchone()
-		cur.close()
-		con.close()
-		ta=str(a)
-		output=ta[2:-3]
-		tb=str(b)
-		name=tb[2:-3]
-		print(output, name)
-		session.pop('user', None)
-		session.pop('role', None)
-		if request.form['password'] == output and output != '':
-			session['user'] = name
-			session['role'] = role
-			print('session name = ',session['user'])
-			return redirect('/')
-		else:
-			return render_template("index.html",login_modal=True)
+  if request.method == "POST":
+    emailid = request.form['emailid']
+    password = request.form['password']
+    role = request.form['role']
+    con = sql.connect("static/datab.db")
+    cur = con.cursor()
+    emailid = emailid.lower()
+    if role == "user":
+      cur.execute("select password from users where email = ?",(emailid,))
+      a = cur.fetchone();
+      cur.execute("select name from users where email = ?",(emailid,))
+      b = cur.fetchone()
+    elif role == "admin":
+      cur.execute("select password from admin where email = ?",(emailid,))
+      a = cur.fetchone();
+      cur.execute("select name from admin where email = ?",(emailid,))
+      b = cur.fetchone()
+    cur.close()
+    con.close()
+    ta=str(a)
+    output=ta[2:-3]
+    tb=str(b)
+    name=tb[2:-3]
+    session.pop('user', None)
+    session.pop('role', None)
+    if request.form['password'] == output and output != '':
+      session['user'] = name
+      session['role'] = role
+      session['email'] = emailid
+      return redirect('/')
+    else:
+      return render_template("index.html",login_modal=True)
 
 @app.before_request
 def before_request():
@@ -97,17 +94,28 @@ def before_request():
 @app.route('/logout')
 def logout():
   session.pop('user', None)
+  session.pop('role', None)
+  session.pop('email', None)
   return redirect('/')
 
 @app.route("/")
 def index():
-	if 'user' in session:
-		print(session['user'],session['role'])
-		if session['role'] == "user":
-			return render_template("index1.html",UserName = session['user'])
-		elif session['role'] == "admin":
-			return render_template("index2.html",UserName = session['user'])
-	return render_template("index.html")
+  if 'user' in session:
+    if session['role'] == "user":
+      return render_template("index1.html",UserName = session['user'])
+    elif session['role'] == "admin":
+      con = sql.connect("static/datab.db")
+      cur = con.cursor()
+      cur.execute("select rewards from admin where email = ?",(str(session['email']),))
+      print(len(session['email']))
+      a = cur.fetchone()
+      a = str(a)
+      a=a[1:-2]
+      con.commit()
+      cur.close()
+      con.close()
+    return render_template("index2.html",UserName = session['user'],re = a)
+  return render_template("index.html")
 
 @app.route('/result',methods = ['POST', 'GET'])
 def result():
@@ -195,7 +203,31 @@ def upload():
         print("Accept incoming file:", filename)
         print("Save it to:", destination)
         upload.save(destination)
+        con = sql.connect("static/datab.db")
+        cur = con.cursor()
+        cur.execute("INSERT INTO upload_photos (image_name,author)VALUES (?,?)",(filename,session['user']))
+        con.commit()
+        cur.close()
+        con.close()
     return redirect('/')
+
+@app.route("/redeem",methods=["POST"])
+def reedeem():
+  if 'user' in session:
+    amount = int(request.form['amount'])
+    con = sql.connect("static/datab.db")
+    cur = con.cursor()
+    cur.execute("select rewards from admin where email = ?",(str(session['email']),))
+    a = cur.fetchone()
+    a = str(a)
+    a=int(a[1:-2])
+    if a > amount:
+      cur.execute("update admin set rewards = ? where email = ?",((a-amount),str(session['email']),))
+    con.commit()
+    cur.close()
+    con.close()
+  return redirect("/")
+
 
 if __name__=="__main__":
 	app.run(debug=True,port=4000)

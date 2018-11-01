@@ -69,8 +69,7 @@
 
   <!--Search Bar-->
   <div id="searchbar2">
-      <p class="text1"><b>Hi {{UserName}}<br>Upload Your Images for Free!</b></p>
-      <p class="text2" style="font-size: 30px;"><b>PhotoGallery</b> Provides <b>High-Resolution Images</b> for <b>Free</b></p>
+      <p class="text1"><b>Hi {{UserName}}<br>Upload Your Images and Get Rewarded!</b></p>
       <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
       <div class="input-group" id="searchbytag">
           <input class="search-query form-control" id="file-picker" type="file" name="file" accept="image/*" multiple>
@@ -78,6 +77,12 @@
             <input type="submit" class="btn btn-primary" value="Upload!">
           </span>
       </div> 
+      </form>
+      <form method="POST" action="/redeem">
+      <p class="text2" style="font-size: 30px;"><b>Your Rewards: {{re}}</b>
+        <br>
+        <input type="text" placeholder="Redeem Amount" name="amount" style="font-size: 18px;">
+        <input type="submit" class="btn btn-primary" value="Redeem"></p>
       </form>
   </div>
 
@@ -149,89 +154,7 @@ With this project, one can download the image without any copyright issues. Init
       </form>
 </div>
 
-{% if r %}
-    <script type="text/javascript">
-      document.getElementById('test_result').click();
-    </script>
-{% endif %}
-
-<div class="categories row" style="margin: 0">
-  <div class="col-md-12 text-center" id="resulthere">
-    <h3>Search by Category</h3>
-  </div>
-  <div class="col-md-2 col-md-offset-1" onclick="people()">
-    <div class="card text-center" id="c2">
-      <img src="/static/photos/Images/Image32.jpg" style="width: 100%">
-      <div class="card-title">
-        <h4>People</h4>            
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-2" onclick="culture()">
-    <div class="card text-center" id="c2">
-      <img src="/static/photos/Images/Image107.jpg" style="width: 100%">
-      <div class="card-title">
-        <h4>Culture</h4>            
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2" onclick="monument()">
-    <div class="card text-center" id="c2">
-      <img src="/static/photos/Images/Image2.jpg" style="width: 100%">
-      <div class="card-title">
-        <h4>Monument</h4>            
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2" onclick="wildlife()">
-    <div class="card text-center" id="c2">
-      <img src="/static/photos/Images/Image17.jpg" style="width: 100%">
-      <div class="card-title">
-        <h4>Wildlife</h4>            
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2" onclick="city()">
-    <div class="card text-center" id="c2">
-      <img src="/static/photos/Images/Image72.jpg" style="width: 100%">
-      <div class="card-title">
-        <h4>City</h4>            
-      </div>
-    </div>
-  </div>
-</div>
-{% for r in result %}
-<div class="col-md-4 text-center" style="margin-top: 10px;" onload="here()">
-  <img src="static/photos/pics/{{r}}.jpg" style="height: 300px;width: 100%;">
-  <a href="static/photos/pics/{{r}}.jpg" download=""><button type="button" class="btn btn-primary" style="margin: 5px auto">Download</button></a>
-</div>
-      
-      </script>
-      {% endfor %}
 <footer class="container-fluid text-center">
   <p class="col-md-12" style="margin-top: 20px;">&#169; PhotoGallery</p>
 </footer>
-<script type="text/javascript">
-  function people(){
-    document.getElementById('q').value = "People";
-    document.getElementById("myForm").submit(); 
-  }
-  function culture(){
-    document.getElementById('q').value = "Culture";
-    document.getElementById("myForm").submit(); 
-  }
-  function monument(){
-    document.getElementById('q').value = "Monument";
-    document.getElementById("myForm").submit(); 
-  }
-  function wildlife(){
-    document.getElementById('q').value = "Wildlife";
-    document.getElementById("myForm").submit(); 
-  }
-  function city(){
-    document.getElementById('q').value = "City";
-    document.getElementById("myForm").submit(); 
-  }
-</script>
 </html>
