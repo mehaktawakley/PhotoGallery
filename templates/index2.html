@@ -71,13 +71,11 @@
   <div id="searchbar2">
       <p class="text1"><b>Hi {{UserName}}<br>Upload Your Images for Free!</b></p>
       <p class="text2" style="font-size: 30px;"><b>PhotoGallery</b> Provides <b>High-Resolution Images</b> for <b>Free</b></p>
-      <form action="/result" method="POST">
+      <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
       <div class="input-group" id="searchbytag">
-          <input type="text" class="search-query form-control" placeholder="Search" name="q">
+          <input class="search-query form-control" id="file-picker" type="file" name="file" accept="image/*" multiple>
           <span class="input-group-btn">
-            <input type="submit" class="btn btn-primary">
-              <span class=" glyphicon glyphicon-search"></span>
-            </input>
+            <input type="submit" class="btn btn-primary" value="Upload!">
           </span>
       </div> 
       </form>
