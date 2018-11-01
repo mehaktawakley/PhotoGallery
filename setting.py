@@ -1,9 +1,12 @@
-from flask import Flask, render_template, redirect, url_for, request, g, session
+from flask import Flask, render_template, redirect, url_for, request, g, session, send_from_directory
 import sqlite3 as sql,os
+
 
 app=Flask(__name__)
 app.config["CACHE_TYPE"] = "null"
 app.secret_key = os.urandom(24)
+
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 @app.route("/dashboard")
 def dashboard():
@@ -165,6 +168,34 @@ def result_category():
       if len(inp) == 0:
       	return render_template("index.html", r = True)
       return render_template("index.html",result = inp)
+
+@app.route("/upload", methods=["POST"])
+def upload():
+    '''
+    # this is to verify that folder to upload to exists.
+    if os.path.isdir(os.path.join(APP_ROOT, 'files/{}'.format(folder_name))):
+        print("folder exist")
+    '''
+    target = os.path.join(APP_ROOT, 'static/photos/upload')
+    print(target)
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    print(request.files.getlist("file"))
+    for upload in request.files.getlist("file"):
+        print(upload)
+        print("{} is the file name".format(upload.filename))
+        filename = upload.filename
+        # This is to verify files are supported
+        ext = os.path.splitext(filename)[1]
+        if (ext == ".jpg") or (ext == ".png"):
+            print("File supported moving on...")
+        else:
+            render_template("Error.html", message="Files uploaded are not supported...")
+        destination = "/".join([target, filename])
+        print("Accept incoming file:", filename)
+        print("Save it to:", destination)
+        upload.save(destination)
+    return redirect('/')
 
 if __name__=="__main__":
 	app.run(debug=True,port=4000)
