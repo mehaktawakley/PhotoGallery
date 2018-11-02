@@ -206,6 +206,7 @@ def upload():
         con = sql.connect("static/datab.db")
         cur = con.cursor()
         cur.execute("INSERT INTO upload_photos (image_name,author)VALUES (?,?)",(filename,session['user']))
+        cur.execute("UPDATE admin set rewards = (rewards + 50) where name = ?",(session['user'],))
         con.commit()
         cur.close()
         con.close()
