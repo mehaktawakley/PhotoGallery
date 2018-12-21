@@ -198,7 +198,7 @@ def upload():
         if (ext == ".jpg") or (ext == ".png") or (ext == ".jpeg"):
             print("File supported moving on...")
         else:
-            render_template("Error.html", message="Files uploaded are not supported...")
+            render_template("<h1>File Not Supported</h1>")
         destination = "/".join([target, filename])
         print("Accept incoming file:", filename)
         print("Save it to:", destination)
