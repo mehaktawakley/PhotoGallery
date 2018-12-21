@@ -195,7 +195,7 @@ def upload():
         filename = upload.filename
         # This is to verify files are supported
         ext = os.path.splitext(filename)[1]
-        if (ext == ".jpg") or (ext == ".png"):
+        if (ext == ".jpg") or (ext == ".png") or (ext == ".jpeg"):
             print("File supported moving on...")
         else:
             render_template("Error.html", message="Files uploaded are not supported...")
