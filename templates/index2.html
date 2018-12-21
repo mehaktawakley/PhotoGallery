@@ -69,7 +69,7 @@
 
   <!--Search Bar-->
   <div id="searchbar2">
-      <p class="text1"><b>Hi {{UserName}}<br>Upload Your Images and Get Rewarded!</b></p>
+      <p class="text1"><b>Hi {{UserName}}!<br>Upload Your Images and Get Rewarded!</b></p>
       <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
       <div class="input-group" id="searchbytag">
           <input class="search-query form-control" id="file-picker" type="file" name="file" accept="image/*" multiple>
@@ -81,8 +81,8 @@
       <form method="POST" action="/redeem">
       <p class="text2" style="font-size: 30px;"><b>Your Rewards: {{re}}</b>
         <br>
-        <input type="text" placeholder="Redeem Amount" name="amount" style="font-size: 18px;">
-        <input type="submit" class="btn btn-primary" value="Redeem"></p>
+        <input type="text" placeholder="Redeem Amount" id="amount" name="amount" style="font-size: 18px;">
+        <input type="submit" class="btn btn-primary" value="Redeem" id="red"></p>
       </form>
   </div>
 
@@ -157,4 +157,17 @@ With this project, one can download the image without any copyright issues. Init
 <footer class="container-fluid text-center">
   <p class="col-md-12" style="margin-top: 20px;">&#169; PhotoGallery</p>
 </footer>
+<script type="text/javascript">
+  $(document).ready(function() {
+            $("#amount").change(function() {
+              if(document.getElementById("amount").value < 0){
+                $("#red").prop("disabled", true);
+              }
+              else{
+                $("#red").removeAttr('disabled');
+              }
+            });
+  });
+</script>
+</body>
 </html>

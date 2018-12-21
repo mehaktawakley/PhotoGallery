@@ -195,7 +195,7 @@ def upload():
         filename = upload.filename
         # This is to verify files are supported
         ext = os.path.splitext(filename)[1]
-        if (ext == ".jpg") or (ext == ".png"):
+        if (ext == ".jpg") or (ext == ".png") or (ext == ".jpeg"):
             print("File supported moving on...")
         else:
             render_template("Error.html", message="Files uploaded are not supported...")
@@ -206,6 +206,7 @@ def upload():
         con = sql.connect("static/datab.db")
         cur = con.cursor()
         cur.execute("INSERT INTO upload_photos (image_name,author)VALUES (?,?)",(filename,session['user']))
+        cur.execute("UPDATE admin set rewards = (rewards + 50) where name = ?",(session['user'],))
         con.commit()
         cur.close()
         con.close()
