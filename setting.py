@@ -179,11 +179,6 @@ def result_category():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    '''
-    # this is to verify that folder to upload to exists.
-    if os.path.isdir(os.path.join(APP_ROOT, 'files/{}'.format(folder_name))):
-        print("folder exist")
-    '''
     target = os.path.join(APP_ROOT, 'static/photos/upload')
     print(target)
     if not os.path.isdir(target):
@@ -206,7 +201,6 @@ def upload():
         con = sql.connect("static/datab.db")
         cur = con.cursor()
         cur.execute("INSERT INTO upload_photos (image_name,author)VALUES (?,?)",(filename,session['user']))
-        cur.execute("UPDATE admin set rewards = (rewards + 50) where name = ?",(session['user'],))
         con.commit()
         cur.close()
         con.close()
